@@ -86,6 +86,36 @@ $maxWS = $host.UI.RawUI.Get_MaxWindowSize()
 chef shell-init powershell | Invoke-Expression
 $env:BERKSHELF_PATH="C:\working\berkshelf"
 
+# Load Posh-Git #
+$ModPath = $env:PSModulePath.split(";")[0]
+if (!(test-path $ModPath)) {
+ mkdir $ModPath
+}
+$PoshGitPath = Join-Path $ModPath "posh-git"
+if (!(test-path $PoshGitPath)) {
+push-location $ModPath
+try {
+  Invoke-Expression git clone https://github.com/dahlbyk/posh-git.git "posh-git"
+} catch {
+ write-host "Unable to download posh-git"
+ } finally {
+  pop-location
+ }
+}
+if ((Get-Module posh-git -ListAvailable).count -eq 1) {
+ import-module posh-git
+ function global:prompt {
+  $realLASTEXITCODE = $LASTEXITCODE
+
+  Write-Host($pwd.ProviderPath) -nonewline
+
+  Write-VcsStatus
+
+  $global:LASTEXITCODE = $realLASTEXITCODE
+  return "> "
+ }
+}
+
 # Cowsay #
 "$PSScriptRoot\lib\cowsay.ps1"
 
