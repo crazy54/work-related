@@ -530,6 +530,16 @@ function df {
     }
 }
 
+function Restart-HC {
+    Get-Process Hipchat* | Stop-Process
+    while ((Get-Process Hipchat*).count -gt 0) {
+        sleep 1
+    }
+    Push-Location "C:\Program Files (x86)\Atlassian\HipChat4"
+    Start-Process "C:\Program Files (x86)\Atlassian\HipChat4\HipChat.exe"
+    Pop-Location
+}
+
 # Load External Modules! #
 
 #Tell Me This Profile Loaded Completely and Correctly#
