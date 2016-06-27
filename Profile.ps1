@@ -36,7 +36,7 @@ if (([Environment]::OSVersion.Version.Major -gt 5) -and
       $margin.top = 0
        $margin.left = 0
 
-  
+
    } else {
 
       $margin.top = -1
@@ -77,7 +77,7 @@ $maxWS = $host.UI.RawUI.Get_MaxWindowSize()
 [console]::Title="Blackline Custom Engineering Monster Shell"
 
                 # *** END OF SHELL CUSTOMIZATION *** #
-                
+
 # Custom Alias #
 
 # LOAD CUSTOM MODULES AND SCRIPTS #
@@ -442,7 +442,7 @@ param(
 }
 
 function Search-TextFile {
-  param( 
+  param(
     [parameter(mandatory=$true)]$File,
     [parameter(mandatory=$true)]$SearchText
   ) #close param
@@ -451,7 +451,7 @@ function Search-TextFile {
   $lines = [system.io.file]::ReadLines($fullPath)
   foreach ($line in $lines) { if ($line -match $SearchText) {$line} }
 }
-                
+
 Function Reload
 {
 $cline = "`"/c start powershell.exe -noexit -c `"Set-Location '{0}'" -f $PWD.path
@@ -460,9 +460,9 @@ Stop-Process -Id $PID
 }
 
 function Explore
-{     
-param  
-    (  
+{
+param
+    (
         [Parameter(
             Position = 0,
             ValueFromPipeline=$true,
@@ -471,7 +471,7 @@ param
         )]
         [ValidateNotNullOrEmpty()]
         [string]
-        #First param is the path you're going to explore. 
+        #First param is the path you're going to explore.
         $Target
     )
 $exploriation = New-Object -ComObject shell.application
@@ -481,11 +481,11 @@ $exploriation.Explore($Target)
 Function llm #lock Local machine
 {
 
- $signature = @"  
-    [DllImport("user32.dll", SetLastError = true)]  
-    public static extern bool LockWorkStation();  
-"@  
-    $LockWorkStation = Add-Type -memberDefinition $signature -name "Win32LockWorkStation" -namespace Win32Functions -passthru  
+ $signature = @"
+    [DllImport("user32.dll", SetLastError = true)]
+    public static extern bool LockWorkStation();
+"@
+    $LockWorkStation = Add-Type -memberDefinition $signature -name "Win32LockWorkStation" -namespace Win32Functions -passthru
 
     $LockWorkStation::LockWorkStation()|Out-Null
 }
@@ -530,6 +530,23 @@ function df {
     }
 }
 
+# Credit for git-pull-all goes to Kyle Purkiss!
+# Kyle.Purkiss@Blackline.com
+
+function git-pull-all {
+   $CurDir = pwd
+   Get-ChildItem -Depth 1 -Directory | % {
+       Push-Location $_
+       write-host "Checking $($_.Name)" -ForegroundColor Green -BackgroundColor Black
+       if (Test-Path .\.git) {
+           git pull --all
+       } else {
+           write-host "$($_.Name) is not a git repo"
+       }
+       Pop-Location
+   }
+   sl $CurDir
+}
 # Load External Modules! #
 
 #Tell Me This Profile Loaded Completely and Correctly#
