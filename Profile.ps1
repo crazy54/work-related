@@ -547,6 +547,17 @@ function git-pull-all {
    }
    sl $CurDir
 }
+
+function apool-reset { $env:SERVER = Read-Host -Prompt 'Input $Server Name'
+#write-host $env:SERVER
+invoke-command -cn $env:SERVER -script {
+$inst = $args[0]
+write-host $inst
+import-module WebAdministration
+$appPool = (Get-Item "IIS:\Sites\Default Web Site\$inst"| Select-Object applicationPool).applicationPool; Write-Host $appPool; Restart-WebItem IIS:\AppPools\$appPool
+} -argumentList $env:INSTANCE
+}
+
 # Load External Modules! #
 
 #Tell Me This Profile Loaded Completely and Correctly#
