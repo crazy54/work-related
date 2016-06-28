@@ -564,7 +564,7 @@ function gitit {
   write-host "Write Your Commit Message" -ForegroundColor Black -BackgroundColor White
   $comment = Read-Host 'Message:'
 git add *;
-git commit -m  '$comment';
+git commit -m  $comment;
 git push origin master
 }
 
