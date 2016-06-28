@@ -558,6 +558,16 @@ $appPool = (Get-Item "IIS:\Sites\Default Web Site\$inst"| Select-Object applicat
 } -argumentList $env:INSTANCE
 }
 
+# Credit for Gitit goes to Kirk Janzter
+# kirk.Janzter@blackline.com | Cheers!
+function gitit {
+  write-host "Write Your Commit Message" -ForegroundColor Black -BackgroundColor White
+git add *;
+git commit -m '$comment';
+git push origin master
+}
+
+
 # Load External Modules! #
 
 #Tell Me This Profile Loaded Completely and Correctly#
