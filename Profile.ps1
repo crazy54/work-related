@@ -89,31 +89,35 @@ $env:BERKSHELF_PATH="C:\working\berkshelf"
 # Load Posh-Git #
 $ModPath = $env:PSModulePath.split(";")[0]
 if (!(test-path $ModPath)) {
- mkdir $ModPath
+mkdir $ModPath
 }
 $PoshGitPath = Join-Path $ModPath "posh-git"
 if (!(test-path $PoshGitPath)) {
-push-location $ModPath
-try {
-  Invoke-Expression git clone https://github.com/dahlbyk/posh-git.git "posh-git"
-} catch {
- write-host "Unable to download posh-git"
- } finally {
-  pop-location
- }
+   push-location $ModPath
+   try {
+       if (Test-Connection https://github.com/dahlbyk/posh-git.git -Quiet -Count 1 -ErrorAction SilentlyContinue) {
+           Invoke-Expression git clone https://github.com/dahlbyk/posh-git.git "posh-git"
+       } else {
+           write-host "Unable to reach https://github.com/dahlbyk/posh-git.git"
+       }
+   } catch {
+       write-host "Unable to download posh-git"
+   } finally {
+       pop-location
+   }
 }
 if ((Get-Module posh-git -ListAvailable).count -eq 1) {
- import-module posh-git
- function global:prompt {
-  $realLASTEXITCODE = $LASTEXITCODE
+   import-module posh-git -DisableNameChecking
+   function global:prompt {
+       $realLASTEXITCODE = $LASTEXITCODE
 
-  Write-Host($pwd.ProviderPath) -nonewline
+       Write-Host($pwd.ProviderPath) -nonewline
 
-  Write-VcsStatus
+       Write-VcsStatus
 
-  $global:LASTEXITCODE = $realLASTEXITCODE
-  return "> "
- }
+       $global:LASTEXITCODE = $realLASTEXITCODE
+       return "> "
+   }
 }
 
 # Cowsay #
