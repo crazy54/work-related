@@ -573,10 +573,22 @@ git commit -m  $comment;
 git push origin master
 }
 
+# Restart hipchat. May break if hipchat updates to 64 bit.
+# Kyle.Purkiss@blackline.com
+function Restart-Hipchat {
+    Get-Process Hipchat* | Stop-Process
+    while ((Get-Process Hipchat*).count -gt 0) {
+        sleep 1
+    }
+    Push-Location "C:\Program Files (x86)\Atlassian\HipChat4"
+    Start-Process "C:\Program Files (x86)\Atlassian\HipChat4\HipChat.exe"
+    Pop-Location
+}
+
 # Credit for Blackline ASCII Logo & Text to Jeremy.Hall@Blackline.com
 #####################################################################
 
-function header{
+function header {
     $header = "'STRING'"
     write-host 'o-----------------------/'
     write-host 'o--------------------:+sh'
@@ -594,8 +606,8 @@ function header{
     write-host 'N+/mMNsNMo:yMMMN+:::::::+'
     write-host ""
     write-host ""
-    }
 }
+
 # Load External Modules! #
 
 #Tell Me This Profile Loaded Completely and Correctly#
