@@ -564,6 +564,7 @@ $appPool = (Get-Item "IIS:\Sites\Default Web Site\$inst"| Select-Object applicat
 
 # Credit for Gitit goes to Kirk Janzter (JHall converted to function)
 # Kirk.Janzter@blackline.com | Jeremy.Hall@Blackline.com | Cheers!
+######################################################################
 function gitit {
   write-host "Write Your Commit Message" -ForegroundColor Black -BackgroundColor White
   $comment = Read-Host 'Message:'
@@ -572,7 +573,29 @@ git commit -m  $comment;
 git push origin master
 }
 
+# Credit for Blackline ASCII Logo & Text to Jeremy.Hall@Blackline.com
+#####################################################################
 
+function header{
+    $header = "'STRING'"
+    write-host 'o-----------------------/'
+    write-host 'o--------------------:+sh'
+    write-host 'o----------------::oyho//'
+    write-host '+--------------:ohds/---/'
+    write-host "o-----------:+hmh+:-----/`t`t______ _            _    _     _            "
+    write-host "my/:------:sdms/-----:/sh`t`t| ___ \ |          | |  | |   (_)           "
+    write-host "yhNh+:--/ymmo:----:/shs+/`t`t| |_/ / | __ _  ___| | _| |    _ _ __   ___ "
+    write-host "o-+dNdohNmo:----:ohh+:--/`t`t| ___ \ |/ _``|/ __| |/ / |   | | '_ \ / _ \"
+    write-host "o--:yMMMh:----:sdy/----:+`t`t| |_/ / | (_| | (__|   <| |___| | | | |  __/"
+    write-host "s-/hNNhNNy:-:yds:----/sys`t`t\____/|_|\__,_|\___|_|\_\_____/_|_| |_|\___|"
+    write-host 'NhNMd/-/mMmymy:---:ohs/:/'
+    write-host "MMMm:---:mMMd:--:odo:---/`t`t`t         '$header'"
+    write-host 'MNmMd:-/dMdMMm/+my:-----/'
+    write-host 'N+/mMNsNMo:yMMMN+:::::::+'
+    write-host ""
+    write-host ""
+    }
+}
 # Load External Modules! #
 
 #Tell Me This Profile Loaded Completely and Correctly#
